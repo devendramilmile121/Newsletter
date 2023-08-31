@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="flex-row w-100 h-100">
+    <mat-card class="w-100 h-100 m-1">
+      <mat-card-title>
+        <div class="m-1">Subscriber List</div>
+      </mat-card-title>
+      <mat-card-content class="w-100 h-100">
+        <div *ngIf="!loading; else loader" class="w-100 h-95">
+          <mat-table
+            *ngIf="dataSource.length > 0; else noDataFound"
+            [dataSource]="dataSource"
+            class="h-100 w-100"
+          >
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>Id</th>
+              <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="reason">
+              <th mat-header-cell *matHeaderCellDef>Reason</th>
+              <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="referral">
+              <th mat-header-cell *matHeaderCellDef>Referral</th>
+              <td mat-cell *matCellDef="let element">{{ element.referral }}</td>
+            </ng-container>
+            <ng-container matColumnDef="other">
+              <th mat-header-cell *matHeaderCellDef>Other Referral</th>
+              <td mat-cell *matCellDef="let element">{{ element.other }}</td>
+            </ng-container>
+
+            <mat-header-row mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+        </div>
+        <div class="flex-row w-100 justify-content-center">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openSubscriberDialog()"
+          >
+            Open Form
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #loader>
+  <div class="flex-row justify-content-center w-100 h-100 align-item-center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #noDataFound>
+  <div class="flex-row justify-content-center w-100 h-100 align-item-center">
+    <h4>No subscriber found!</h4>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <div *ngFor="let item of subscriberErrors" class="flex-row">
+    {{ item[1][0] }}
+  </div>
+</ng-template>

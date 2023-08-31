@@ -1,0 +1,112 @@
+<h1 mat-dialog-title>Subscribe to Newsletter</h1>
+<div mat-dialog-content>
+  <form class="flex-column" [formGroup]="subscriberFg">
+    <mat-form-field floatLabel="auto">
+      <mat-label>Email Address</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        placeholder="Enter Email Address"
+        required
+        [maxLength]="100"
+      />
+      <mat-error
+        *ngIf="
+          fg['email'].touched &&
+          fg['email'].invalid &&
+          fg['email'].hasError('pattern')
+        "
+      >
+        Please enter a valid email address.
+      </mat-error>
+      <mat-error
+        *ngIf="
+          fg['email'].touched &&
+          fg['email'].invalid &&
+          fg['email'].hasError('required')
+        "
+      >
+        Please enter email address.
+      </mat-error>
+      <mat-error
+        *ngIf="
+          fg['email'].touched &&
+          fg['email'].invalid &&
+          fg['email'].hasError('maxLength')
+        "
+      >
+        Max allowed characters is 100.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field floatLabel="auto">
+      <mat-label>How you heared about us?</mat-label>
+      <mat-select formControlName="referralSourceId" required>
+        <mat-option *ngFor="let item of referralSources" [value]="item.id">{{
+          item.name
+        }}</mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          fg['referralSourceId'].touched &&
+          fg['referralSourceId'].invalid &&
+          fg['referralSourceId'].hasError('required')
+        "
+      >
+        Please select how you heard about us.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="otherEnabled" floatLabel="auto">
+      <mat-label>Other Referral Source</mat-label>
+      <input
+        matInput
+        #other
+        formControlName="other"
+        placeholder="Enter other referral source"
+        [maxLength]="250"
+      />
+      <mat-error
+        *ngIf="
+          fg['other'].touched &&
+          fg['other'].invalid &&
+          fg['other'].hasError('maxLength')
+        "
+      >
+        Max allowed characters is 250.
+      </mat-error>
+      <div class="flex-row justify-content-end">
+        <small>{{other.value.length+'/250'}}</small>
+      </div>
+    </mat-form-field>
+    <mat-form-field floatLabel="auto">
+      <mat-label>Reason</mat-label>
+      <textarea #reason matInput formControlName="reason" rows="6" [maxLength]="400">
+      </textarea>
+      <mat-error
+        *ngIf="
+          fg['reason'].touched &&
+          fg['reason'].invalid &&
+          fg['reason'].hasError('maxLength')
+        "
+      >
+        Max allowed characters is 400.
+      </mat-error>
+      <div class="flex-row justify-content-end">
+        <small>{{reason.value.length+'/400'}}</small>
+      </div>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <div class="flex-row justify-content-end w-100">
+    <button mat-button (click)="close('reject')">No Thanks</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="subscriberFg.invalid"
+      (click)="save()"
+      cdkFocusInitial
+    >
+      Subscribe
+    </button>
+  </div>
+</div>
